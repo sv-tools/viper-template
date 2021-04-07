@@ -4,6 +4,7 @@ import (
 	"text/template"
 
 	"github.com/spf13/viper"
+	bufferspool "github.com/sv-tools/buffers-pool"
 )
 
 type parser struct {
@@ -51,8 +52,8 @@ func (p *parser) parse(key string) (interface{}, error) {
 
 	p.visited[key] = true
 
-	buf := getBuffer()
-	defer putBuffer(buf)
+	buf := bufferspool.Get()
+	defer bufferspool.Put(buf)
 
 	if err := tmpl.Execute(buf, p.data); err != nil {
 		return "", err
