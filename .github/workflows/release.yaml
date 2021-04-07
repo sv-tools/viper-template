@@ -25,7 +25,6 @@ jobs:
           git config user.name "sv-tools-bot"
           git config user.email "sv.go.tools@gmail.com"
           git fetch --all
-          git describe --tags --abbrev=0
       - name: Create Tag
         run: |
           docker run --rm -v $PWD:/mount -w /mount svtools/bumptag:latest ${{ github.event.milestone.title }}
