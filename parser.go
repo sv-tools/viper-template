@@ -30,7 +30,7 @@ func newParser(opts ...Option) *parser {
 }
 
 func (p *parser) parse(key string) (interface{}, error) {
-	if _, ok := p.visited[key]; ok {
+	if p.visited[key] {
 		return nil, newError(key, ErrCircularDependency)
 	}
 
