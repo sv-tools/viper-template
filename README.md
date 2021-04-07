@@ -36,11 +36,11 @@ func main() {
 		},
 	}
 
-	val, err := viperTemplate.Get(
+	val, err := vipertemplate.Get(
 		"foo",
-		viperTemplate.WithViper(v),
-		viperTemplate.WithData(&data),
-		viperTemplate.WithFuncs(funcs),
+		vipertemplate.WithViper(v),
+		vipertemplate.WithData(&data),
+		vipertemplate.WithFuncs(funcs),
 	)
 	if err != nil {
 		panic(err)
