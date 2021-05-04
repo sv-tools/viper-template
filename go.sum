@@ -171,8 +171,8 @@ github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5Cc
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/subosito/gotenv v1.2.0 h1:Slr1R9HxAlEKefgq5jn9U+DnETlIUa6HfgEzj0g5d7s=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
-github.com/sv-tools/buffers-pool v0.2.2 h1:Ustkh+MRQ632ttgT4TOoUAUgDkmm5/SHBOhqEoq90dE=
-github.com/sv-tools/buffers-pool v0.2.2/go.mod h1:yczFcvb4++osdUGh7xmEEAAahTJFUmS0zbOk9kXeo40=
+github.com/sv-tools/buffers-pool v1.0.0 h1:4i+N4E1DJfTlMgo2IahcRLVr31XvsyKiQDS/5chMiq4=
+github.com/sv-tools/buffers-pool v1.0.0/go.mod h1:yczFcvb4++osdUGh7xmEEAAahTJFUmS0zbOk9kXeo40=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
