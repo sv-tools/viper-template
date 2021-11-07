@@ -144,13 +144,11 @@ func ExampleGetString_first() {
 		panic(err)
 	}
 	fmt.Println(val)
-	// Output: 42
 
 	_, err = vipertemplate.GetString("bar")
-	if err != nil {
-		panic(err)
-	}
-	// Panic: non string value
+	fmt.Println(err)
+	// Output: 42
+	// non-parsable template for the key 'bar': non-string value
 }
 
 func ExampleGetString_second() {
@@ -159,8 +157,6 @@ func ExampleGetString_second() {
 	viper.Set("foo", `{{ Get "bar" }}`)
 
 	_, err := vipertemplate.GetString("bar")
-	if err != nil {
-		panic(err)
-	}
-	// Panic: non string value
+	fmt.Println(err)
+	// non-parsable template for the key 'bar': non-string value
 }
