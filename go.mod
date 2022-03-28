@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/spf13/viper v1.10.1
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.1
 	github.com/sv-tools/buffers-pool v1.1.0
 )
 
