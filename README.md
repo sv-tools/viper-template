@@ -50,3 +50,16 @@ func main() {
 	fmt.Println(val)
 }
 ```
+
+## Benchmarks
+
+
+### `v1.2.0`
+
+```
+goos: darwin
+goarch: arm64
+pkg: github.com/sv-tools/viper-template
+BenchmarkGetParallel-8            708753              1887 ns/op            4392 B/op         44 allocs/op
+BenchmarkGetSequential-8          425715              2773 ns/op            4389 B/op         44 allocs/op
+```
