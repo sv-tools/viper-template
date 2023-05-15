@@ -3,6 +3,7 @@ package vipertemplate_test
 import (
 	"fmt"
 	"testing"
+	"text/template"
 
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
@@ -132,6 +133,35 @@ func ExampleGet_second() {
 	}
 	fmt.Println(val)
 	// Output: 42
+}
+
+func ExampleGet_readme() {
+	defer viper.Reset()
+	viper.Set("foo", `{{ Get "bar" }}`)
+	viper.Set("bar", `{{ Mul . 2 }}`)
+
+	type Data struct {
+		Bar int
+	}
+	data := Data{
+		Bar: 42,
+	}
+
+	funcs := template.FuncMap{
+		"Mul": func(d *Data, v int) int {
+			return d.Bar * v
+		},
+	}
+	val, err := vipertemplate.Get(
+		"foo",
+		vipertemplate.WithData(&data),
+		vipertemplate.WithFuncs(funcs),
+	)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(val)
+	// Output: 84
 }
 
 func ExampleGetString_first() {

@@ -48,6 +48,7 @@ func main() {
 	}
 
 	fmt.Println(val)
+	// Output: 84
 }
 ```
 
