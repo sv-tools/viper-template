@@ -1,11 +1,36 @@
 package vipertemplate
 
+import (
+	"sync"
+	"text/template"
+
+	"github.com/spf13/viper"
+)
+
+var pool = sync.Pool{
+	New: func() interface{} {
+		return &parser{}
+	},
+}
+
 // Get tries to parse a go template stored in a Viper by a given key.
 // If the type of the value is not string then just returns,
 // otherwise it parses and executes the stored text as a go template.
 // The `Get` function added by default. It supports the recursive calls.
 func Get(key string, opts ...Option) (interface{}, error) {
-	return newParser(opts...).parse(key)
+	p := pool.Get().(*parser)
+	defer func() {
+		pool.Put(p)
+	}()
+	p.viper = viper.GetViper()
+	p.visited = make(map[string]struct{})
+	p.data = nil
+	p.funcs = template.FuncMap{"Get": p.get}
+	for _, opt := range opts {
+		opt(p)
+	}
+
+	return p.parse(key)
 }
 
 // GetString tries to parse a go template stored in a Viper by a given key.

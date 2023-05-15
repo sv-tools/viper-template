@@ -18,7 +18,6 @@ linters:
     - gofumpt
     - goprintffuncname
     - gosec
-    - ifshort
     - lll
     - misspell
     - nestif
