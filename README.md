@@ -1,5 +1,5 @@
 # viper-template
-An extension for Golang Viper library to use Go templates in viper config
+An extension for Golang [Viper](https://github.com/spf13/viper) library to use and execute Go templates in the viper configs.
 
 [![Code Analysis](https://github.com/sv-tools/viper-template/actions/workflows/checks.yaml/badge.svg)](https://github.com/sv-tools/viper-template/actions/workflows/checks.yaml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/sv-tools/viper-template.svg)](https://pkg.go.dev/github.com/sv-tools/viper-template)
