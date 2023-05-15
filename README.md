@@ -53,8 +53,19 @@ func main() {
 
 ## Benchmarks
 
+### `v1.3.0`
+using go `v1.20.4`
+
+```
+goos: darwin
+goarch: arm64
+pkg: github.com/sv-tools/viper-template
+BenchmarkGetParallel-8            728578              1658 ns/op            4329 B/op         43 allocs/op
+BenchmarkGetSequential-8          401380              2794 ns/op            4327 B/op         43 allocs/op
+```
 
 ### `v1.2.0`
+using go `v1.20.2`
 
 ```
 goos: darwin
