@@ -709,8 +709,8 @@ github.com/stretchr/testify v1.8.2 h1:+h33VjcLVPDHtOdpUCuF+7gSuG3yGIftsP1YvFihtJ
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/subosito/gotenv v1.4.2 h1:X1TuBLAMDFbaTAChgCBLu3DU3UPyELpnF2jjJ2cz/S8=
 github.com/subosito/gotenv v1.4.2/go.mod h1:ayKnFf/c6rvx/2iiLrJUk1e6plDbT3edrFNGqEflhK0=
-github.com/sv-tools/buffers-pool v1.1.0 h1:waQdghktmwU5dgKpYbj0XUXERD6gIH0cEtddFQYQCgA=
-github.com/sv-tools/buffers-pool v1.1.0/go.mod h1:yczFcvb4++osdUGh7xmEEAAahTJFUmS0zbOk9kXeo40=
+github.com/sv-tools/buffers-pool v1.2.0 h1:z/gunmtnXrwUQLbovM0SvO4tXFEta/QXbEmYZjOG9j0=
+github.com/sv-tools/buffers-pool v1.2.0/go.mod h1:elAjOPRZsU0WQNcaiCR09d+OmchTgNFrC83E08b3oAM=
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
