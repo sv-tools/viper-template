@@ -2,6 +2,7 @@ package vipertemplate_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 	"text/template"
 
@@ -162,6 +163,32 @@ func ExampleGet_readme() {
 	}
 	fmt.Println(val)
 	// Output: 84
+}
+
+func ExampleGet_environmentVariable() {
+	if err := os.Setenv("bar", "42"); err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := os.Unsetenv("bar"); err != nil {
+			panic(err)
+		}
+	}()
+	defer viper.Reset()
+	viper.Set("foo", `{{ Getenv "bar" }}`)
+
+	funcs := template.FuncMap{
+		"Getenv": os.Getenv,
+	}
+	val, err := vipertemplate.Get(
+		"foo",
+		vipertemplate.WithFuncs(funcs),
+	)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(val)
+	// Output: 42
 }
 
 func ExampleGetString_first() {

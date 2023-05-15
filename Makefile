@@ -18,7 +18,7 @@ brew-install:
 
 run-test:
 	@echo "$(OK_COLOR)==> Testing...$(NO_COLOR)"
-	@richgo test -cover -race
+	@richgo test -cover -race -v
 
 run-benchmark:
 	@echo "$(OK_COLOR)==> Benchmarks...$(NO_COLOR)"
