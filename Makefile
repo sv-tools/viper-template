@@ -7,7 +7,7 @@ ifeq ($(shell uname), Darwin)
 all: brew-install
 endif
 
-all: tidy lint test done
+all: tidy  test done
 
 done:
 	@echo "$(OK_COLOR)==> Done.$(NO_COLOR)"

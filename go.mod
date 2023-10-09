@@ -1,6 +1,6 @@
 module github.com/sv-tools/viper-template
 
-go 1.18
+go 1.19
 
 require (
 	github.com/spf13/viper v1.17.0
