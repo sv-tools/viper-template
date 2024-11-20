@@ -1,9 +1,0 @@
-project_name: viper-template
-
-release:
-  github:
-    owner: sv-tools
-    name: viper-template
-
-builds:
-  - skip: true
