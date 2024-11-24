@@ -5,16 +5,14 @@ linters:
   enable: # keep in ascending order
     - asciicheck
     - bodyclose
+    - copyloopvar
     - dupl
     - durationcheck
+    - err113
     - exhaustive
-    - exportloopref
     - gci
-    - gocognit
     - goconst
     - gocritic
-    - gocyclo
-    - goerr113
     - gofumpt
     - goprintffuncname
     - gosec
@@ -43,7 +41,10 @@ linters-settings:
     disable:
       - shadow
   gci:
-    local-prefixes: github.com/sv-tools/viper-template
+    sections:
+      - standard
+      - default
+      - prefix(github.com/sv-tools/viper-template)
   gocognit:
     min-complexity: 15
   gocyclo:
