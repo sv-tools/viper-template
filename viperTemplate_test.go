@@ -215,7 +215,7 @@ func ExampleGetString_second() {
 
 	_, err := vipertemplate.GetString("bar")
 	fmt.Println(err)
-	// non-parsable template for the key 'bar': non-string value
+	// Output: non-parsable template for the key 'bar': non-string value
 }
 
 var benchmarkGetResult interface{}
@@ -244,7 +244,7 @@ func BenchmarkGetSequential(b *testing.B) {
 	viper.Set("foo", `{{ Get "bar" }}`)
 	var r interface{}
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		r, _ = vipertemplate.Get("foo")
 	}
 	benchmarkGetResult = r

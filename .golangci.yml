@@ -1,77 +1,103 @@
-run:
-  skip-dirs-use-default: true
+version: "2"
 
 linters:
+  default: none
+  
   enable: # keep in ascending order
+    - asasalint
     - asciicheck
     - bodyclose
+    - contextcheck
     - copyloopvar
     - dupl
     - durationcheck
     - err113
+    - errcheck
+    - errorlint
     - exhaustive
-    - gci
+    - exptostd
+    - fatcontext
+    - gocheckcompilerdirectives
+    - gochecksumtype
+    - gocognit
     - goconst
     - gocritic
-    - gofumpt
+    - gocyclo
     - goprintffuncname
     - gosec
+    - govet
+    - iface
+    - inamedparam
+    - ineffassign
+    - intrange
     - lll
+    - mirror
     - misspell
+    - musttag
     - nestif
+    - nilerr
     - noctx
     - nolintlint
+    - perfsprint
     - prealloc
     - predeclared
+    - reassign
+    - recvcheck
+    - sloglint
+    - staticcheck
+    - tagliatelle
+    - testableexamples
+    - testifylint
+    - testpackage
     - thelper
+    - tparallel
     - unconvert
     - unparam
     - unused
+    - usestdlibvars
+    - usetesting
+    - wastedassign
     - whitespace
 
-linters-settings:
-  dupl:
-    threshold: 100
-  misspell:
-    locale: US
-  golint:
-    min-confidence: 0
-  govet:
-    enable-all: true
-    disable:
-      - shadow
-  gci:
-    sections:
-      - standard
-      - default
-      - prefix(github.com/sv-tools/viper-template)
-  gocognit:
-    min-complexity: 15
-  gocyclo:
-    min-complexity: 15
-  gofumpt:
-    extra-rules: true
-  lll:
-    line-length: 120
-    tab-width: 4
-  goconst:
-    min-len: 3
-    min-occurrences: 3
-  maligned:
-    suggest-new: true
-  prealloc:
-    for-loops: true
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - experimental
-      - opinionated
-      - performance
-      - style
-    disabled-checks:
-      - whyNoLint
+  settings:
+    dupl:
+      threshold: 100
+    misspell:
+      locale: US
+    gocognit:
+      min-complexity: 15
+    gocyclo:
+      min-complexity: 15
+    lll:
+      line-length: 120
+      tab-width: 4
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+    prealloc:
+      for-loops: true
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - experimental
+        - opinionated
+        - performance
+        - style
+      disabled-checks:
+        - whyNoLint
 
-issues:
-  exclude-use-default: false
-  exclude:
-    - should have a package comment
+  exclusions:
+    warn-unused: true
+
+formatters:
+  enable:
+    - gci
+    - gofumpt
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/sv-tools/viper-template)
+    gofumpt:
+      extra-rules: true
