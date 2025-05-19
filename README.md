@@ -8,6 +8,10 @@ An extension for Golang [Viper](https://github.com/spf13/viper) library to use a
 
 ## Usage
 
+```shell
+go get github.com/sv-tools/viper-template@latest
+```
+
 ```go
 package main
 
@@ -54,13 +58,16 @@ func main() {
 
 ## Benchmarks
 
-### `v1.5.0`
-using go `v1.21.3`
+### `v1.9.0`
+using go `v1.23.9`
 
 ```
+% go test -bench=. -benchmem
+
 goos: darwin
 goarch: arm64
 pkg: github.com/sv-tools/viper-template
-BenchmarkGetParallel-8            807338              1510 ns/op            4329 B/op         43 allocs/op
-BenchmarkGetSequential-8          431893              2716 ns/op            4327 B/op         43 allocs/op
+cpu: Apple M1
+BenchmarkGetParallel-8            757263              1582 ns/op            4330 B/op         43 allocs/op
+BenchmarkGetSequential-8          417817              2780 ns/op            4328 B/op         43 allocs/op
 ```
