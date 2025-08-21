@@ -1,20 +1,27 @@
 package vipertemplate
 
 import (
+	"bytes"
+	"sync"
 	"text/template"
 
 	"github.com/spf13/viper"
-	bufferspool "github.com/sv-tools/buffers-pool"
 )
+
+var bytesPool = sync.Pool{
+	New: func() any {
+		return new(bytes.Buffer)
+	},
+}
 
 type parser struct {
 	viper   *viper.Viper
 	visited map[string]struct{}
 	funcs   template.FuncMap
-	data    interface{}
+	data    any
 }
 
-func (p *parser) parse(key string) (interface{}, error) {
+func (p *parser) parse(key string) (any, error) {
 	if _, ok := p.visited[key]; ok {
 		return nil, newError(key, ErrCircularDependency)
 	}
@@ -36,8 +43,11 @@ func (p *parser) parse(key string) (interface{}, error) {
 
 	p.visited[key] = struct{}{}
 
-	buf := bufferspool.Get()
-	defer bufferspool.Put(buf)
+	buf := bytesPool.Get().(*bytes.Buffer)
+	defer func() {
+		buf.Reset()
+		bytesPool.Put(buf)
+	}()
 
 	if err := tmpl.Execute(buf, p.data); err != nil {
 		return "", err
@@ -46,6 +56,6 @@ func (p *parser) parse(key string) (interface{}, error) {
 	return buf.String(), nil
 }
 
-func (p *parser) get(key string) (interface{}, error) {
+func (p *parser) get(key string) (any, error) {
 	return p.parse(key)
 }
