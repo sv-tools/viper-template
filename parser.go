@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"sync"
 	"text/template"
-
-	"github.com/spf13/viper"
 )
 
 var bytesPool = sync.Pool{
@@ -15,10 +13,18 @@ var bytesPool = sync.Pool{
 }
 
 type parser struct {
-	viper   *viper.Viper
+	viper   Viper
 	visited map[string]struct{}
 	funcs   template.FuncMap
 	data    any
+}
+
+var parserPool = sync.Pool{
+	New: func() any {
+		p := new(parser)
+		p.reset()
+		return p
+	},
 }
 
 func (p *parser) parse(key string) (any, error) {
@@ -58,4 +64,10 @@ func (p *parser) parse(key string) (any, error) {
 
 func (p *parser) get(key string) (any, error) {
 	return p.parse(key)
+}
+
+func (p *parser) reset() {
+	p.visited = make(map[string]struct{})
+	p.data = nil
+	p.funcs = template.FuncMap{"Get": p.get}
 }

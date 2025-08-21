@@ -9,113 +9,89 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
 
-	vipertemplate "github.com/sv-tools/viper-template"
+	vipertemplate "github.com/sv-tools/viper-template/v2"
 )
 
 func TestGet(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
+	v := viper.New()
+	v.Set("bar", 42)
+	v.Set("foo", `{{ Get "bar" }}`)
 
-	viper.Set("bar", 42)
-	viper.Set("foo", `{{ Get "bar" }}`)
-
-	val, err := vipertemplate.Get("foo")
+	val, err := vipertemplate.Get(v, "foo")
 	require.NoError(t, err)
 	require.Equal(t, "42", val)
 }
 
 func TestGetIncorrectTemplate(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
+	v := viper.New()
+	v.Set("foo", `{{ Get "bar"`)
 
-	viper.Set("foo", `{{ Get "bar"`)
-
-	val, err := vipertemplate.Get("foo")
+	val, err := vipertemplate.Get(v, "foo")
 	require.EqualError(t, err, "template: foo:1: unclosed action")
 	require.Empty(t, val)
 }
 
 func TestGetNoKey(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
-
-	val, err := vipertemplate.Get("foo")
+	v := viper.New()
+	val, err := vipertemplate.Get(v, "foo")
 	require.NoError(t, err)
 	require.Nil(t, val)
 }
 
 func TestGetString(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
+	v := viper.New()
+	v.Set("bar", 42)
+	v.Set("foo", `{{ Get "bar" }}`)
 
-	viper.Set("bar", 42)
-	viper.Set("foo", `{{ Get "bar" }}`)
-
-	val, err := vipertemplate.GetString("foo")
+	val, err := vipertemplate.GetString(v, "foo")
 	require.NoError(t, err)
 	require.Equal(t, "42", val)
 }
 
 func TestGetNonStringValue(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
+	v := viper.New()
+	v.Set("foo", 42)
 
-	viper.Set("foo", 42)
-
-	val, err := vipertemplate.Get("foo")
+	val, err := vipertemplate.Get(v, "foo")
 	require.NoError(t, err)
 	require.Equal(t, 42, val)
 }
 
 func TestGetStringNonStringValue(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
+	v := viper.New()
+	v.Set("foo", 42)
 
-	viper.Set("foo", 42)
-
-	val, err := vipertemplate.GetString("foo")
+	val, err := vipertemplate.GetString(v, "foo")
 	require.ErrorIs(t, err, vipertemplate.ErrNonStringValue)
 	require.Empty(t, val)
 }
 
 func TestGetCircularDependency(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
+	v := viper.New()
+	v.Set("foo", `{{ Get "foo" }}`)
 
-	viper.Set("foo", `{{ Get "foo" }}`)
-
-	val, err := vipertemplate.Get("foo")
+	val, err := vipertemplate.Get(v, "foo")
 	require.Error(t, err)
 	require.Contains(t, err.Error(), vipertemplate.ErrCircularDependency.Error())
 	require.Empty(t, val)
 }
 
 func TestGetStringCircularDependency(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
+	v := viper.New()
+	v.Set("foo", `{{ Get "foo" }}`)
 
-	viper.Set("foo", `{{ Get "foo" }}`)
-
-	val, err := vipertemplate.GetString("foo")
+	val, err := vipertemplate.GetString(v, "foo")
 	require.Error(t, err)
 	require.Contains(t, err.Error(), vipertemplate.ErrCircularDependency.Error())
 	require.Empty(t, val)
 }
 
 func ExampleGet_first() {
-	defer viper.Reset()
-	viper.Set("bar", 42)
-	viper.Set("foo", `{{ Get "bar" }}`)
+	v := viper.New()
+	v.Set("bar", 42)
+	v.Set("foo", `{{ Get "bar" }}`)
 
-	val, err := vipertemplate.Get("foo")
+	val, err := vipertemplate.Get(v, "foo")
 	if err != nil {
 		panic(err)
 	}
@@ -124,11 +100,11 @@ func ExampleGet_first() {
 }
 
 func ExampleGet_second() {
-	defer viper.Reset()
-	viper.Set("bar", 42)
-	viper.Set("foo", `{{ Get "bar" }}`)
+	v := viper.New()
+	v.Set("bar", 42)
+	v.Set("foo", `{{ Get "bar" }}`)
 
-	val, err := vipertemplate.Get("bar")
+	val, err := vipertemplate.Get(v, "bar")
 	if err != nil {
 		panic(err)
 	}
@@ -137,9 +113,9 @@ func ExampleGet_second() {
 }
 
 func ExampleGet_readme() {
-	defer viper.Reset()
-	viper.Set("foo", `{{ Get "bar" }}`)
-	viper.Set("bar", `{{ Mul . 2 }}`)
+	v := viper.New()
+	v.Set("foo", `{{ Get "bar" }}`)
+	v.Set("bar", `{{ Mul . 2 }}`)
 
 	type Data struct {
 		Bar int
@@ -154,6 +130,7 @@ func ExampleGet_readme() {
 		},
 	}
 	val, err := vipertemplate.Get(
+		v,
 		"foo",
 		vipertemplate.WithData(&data),
 		vipertemplate.WithFuncs(funcs),
@@ -174,13 +151,14 @@ func ExampleGet_environmentVariable() {
 			panic(err)
 		}
 	}()
-	defer viper.Reset()
-	viper.Set("foo", `{{ Getenv "bar" }}`)
+	v := viper.New()
+	v.Set("foo", `{{ Getenv "bar" }}`)
 
 	funcs := template.FuncMap{
 		"Getenv": os.Getenv,
 	}
 	val, err := vipertemplate.Get(
+		v,
 		"foo",
 		vipertemplate.WithFuncs(funcs),
 	)
@@ -192,28 +170,28 @@ func ExampleGet_environmentVariable() {
 }
 
 func ExampleGetString_first() {
-	defer viper.Reset()
-	viper.Set("bar", 42)
-	viper.Set("foo", `{{ Get "bar" }}`)
+	v := viper.New()
+	v.Set("bar", 42)
+	v.Set("foo", `{{ Get "bar" }}`)
 
-	val, err := vipertemplate.GetString("foo")
+	val, err := vipertemplate.GetString(v, "foo")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(val)
 
-	_, err = vipertemplate.GetString("bar")
+	_, err = vipertemplate.GetString(v, "bar")
 	fmt.Println(err)
 	// Output: 42
 	// non-parsable template for the key 'bar': non-string value
 }
 
 func ExampleGetString_second() {
-	defer viper.Reset()
-	viper.Set("bar", 42)
-	viper.Set("foo", `{{ Get "bar" }}`)
+	v := viper.New()
+	v.Set("bar", 42)
+	v.Set("foo", `{{ Get "bar" }}`)
 
-	_, err := vipertemplate.GetString("bar")
+	_, err := vipertemplate.GetString(v, "bar")
 	fmt.Println(err)
 	// Output: non-parsable template for the key 'bar': non-string value
 }
@@ -221,31 +199,27 @@ func ExampleGetString_second() {
 var benchmarkGetResult any
 
 func BenchmarkGetParallel(b *testing.B) {
-	b.Cleanup(func() {
-		viper.Reset()
-	})
-	viper.Set("bar", 42)
-	viper.Set("foo", `{{ Get "bar" }}`)
+	v := viper.New()
+	v.Set("bar", 42)
+	v.Set("foo", `{{ Get "bar" }}`)
 	b.ResetTimer()
 	b.RunParallel(func(pb *testing.PB) {
 		var r any
 		for pb.Next() {
-			r, _ = vipertemplate.Get("foo")
+			r, _ = vipertemplate.Get(v, "foo")
 		}
 		benchmarkGetResult = r
 	})
 }
 
 func BenchmarkGetSequential(b *testing.B) {
-	b.Cleanup(func() {
-		viper.Reset()
-	})
-	viper.Set("bar", 42)
-	viper.Set("foo", `{{ Get "bar" }}`)
+	v := viper.New()
+	v.Set("bar", 42)
+	v.Set("foo", `{{ Get "bar" }}`)
 	var r any
 	b.ResetTimer()
 	for range b.N {
-		r, _ = vipertemplate.Get("foo")
+		r, _ = vipertemplate.Get(v, "foo")
 	}
 	benchmarkGetResult = r
 }

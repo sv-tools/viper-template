@@ -1,16 +1,22 @@
 # viper-template
 
-An extension for Golang [Viper](https://github.com/spf13/viper) library to use and execute Go templates in the viper configs.
+An add-on for the Go Viper library that evaluates Go text/template expressions inside configuration values. Use it to reference other keys, inject custom data and functions, and compute settings dynamically at read time.
 
 [![Code Analysis](https://github.com/sv-tools/viper-template/actions/workflows/checks.yaml/badge.svg)](https://github.com/sv-tools/viper-template/actions/workflows/checks.yaml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/sv-tools/viper-template.svg)](https://pkg.go.dev/github.com/sv-tools/viper-template)
 [![codecov](https://codecov.io/gh/sv-tools/viper-template/branch/main/graph/badge.svg?token=0XVOTDR1CW)](https://codecov.io/gh/sv-tools/viper-template)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/sv-tools/viper-template?style=flat-square)](https://github.com/sv-tools/viper-template/releases)
 
+## v2 Changes
+
+In v2, Get and GetString accept a Viper instance as the first parameter. The Viper interface abstracts the dependency, allowing this package to use one Viper version (e.g., for testing) while callers use another.
+
+The Viper version pinned in go.mod is for internal testing only and does not constrain the Viper version you use in your project.
+
 ## Usage
 
 ```shell
-go get github.com/sv-tools/viper-template@latest
+go get github.com/sv-tools/viper-template/v2@latest
 ```
 
 ```go
@@ -21,7 +27,7 @@ import (
   "text/template"
 
   "github.com/spf13/viper"
-  vipertemplate "github.com/sv-tools/viper-template"
+  vipertemplate "github.com/sv-tools/viper-template/v2"
 )
 
 func main() {
@@ -43,8 +49,8 @@ func main() {
   }
 
   val, err := vipertemplate.Get(
+    v,
     "foo",
-    vipertemplate.WithViper(v),
     vipertemplate.WithData(&data),
     vipertemplate.WithFuncs(funcs),
   )
@@ -63,7 +69,7 @@ func main() {
 
 using go `v1.23.9`
 
-```
+```shell
 % go test -bench=. -benchmem
 
 goos: darwin

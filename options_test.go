@@ -8,28 +8,12 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
 
-	vipertemplate "github.com/sv-tools/viper-template"
+	vipertemplate "github.com/sv-tools/viper-template/v2"
 )
 
-func TestGetWithViper(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
-	viper.Set("foo", 43)
-
-	v := viper.New()
-	v.Set("foo", 42)
-
-	val, err := vipertemplate.Get("foo", vipertemplate.WithViper(v))
-	require.NoError(t, err)
-	require.Equal(t, 42, val)
-}
-
 func TestGetWithData(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
-	viper.Set("foo", "{{ .Bar }}")
+	v := viper.New()
+	v.Set("foo", "{{ .Bar }}")
 
 	data := struct {
 		Bar int
@@ -37,16 +21,14 @@ func TestGetWithData(t *testing.T) {
 		Bar: 42,
 	}
 
-	val, err := vipertemplate.Get("foo", vipertemplate.WithData(&data))
+	val, err := vipertemplate.Get(v, "foo", vipertemplate.WithData(&data))
 	require.NoError(t, err)
 	require.Equal(t, "42", val)
 }
 
 func TestGetWithFuncs(t *testing.T) {
-	t.Cleanup(func() {
-		viper.Reset()
-	})
-	viper.Set("foo", "{{ Bar }}")
+	v := viper.New()
+	v.Set("foo", "{{ Bar }}")
 
 	funcs := template.FuncMap{
 		"Bar": func() int {
@@ -54,7 +36,7 @@ func TestGetWithFuncs(t *testing.T) {
 		},
 	}
 
-	val, err := vipertemplate.Get("foo", vipertemplate.WithFuncs(funcs))
+	val, err := vipertemplate.Get(v, "foo", vipertemplate.WithFuncs(funcs))
 	require.NoError(t, err)
 	require.Equal(t, "42", val)
 }
@@ -78,8 +60,8 @@ func ExampleGet_with_options() {
 	}
 
 	val, err := vipertemplate.Get(
+		v,
 		"foo",
-		vipertemplate.WithViper(v),
 		vipertemplate.WithData(&data),
 		vipertemplate.WithFuncs(funcs),
 	)
