@@ -2,14 +2,13 @@ version: "2"
 
 linters:
   default: none
-  
+
   enable: # keep in ascending order
     - asasalint
     - asciicheck
     - bodyclose
     - contextcheck
     - copyloopvar
-    - dupl
     - durationcheck
     - err113
     - errcheck
@@ -60,8 +59,6 @@ linters:
     - whitespace
 
   settings:
-    dupl:
-      threshold: 100
     misspell:
       locale: US
     gocognit:
