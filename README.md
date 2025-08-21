@@ -1,4 +1,5 @@
 # viper-template
+
 An extension for Golang [Viper](https://github.com/spf13/viper) library to use and execute Go templates in the viper configs.
 
 [![Code Analysis](https://github.com/sv-tools/viper-template/actions/workflows/checks.yaml/badge.svg)](https://github.com/sv-tools/viper-template/actions/workflows/checks.yaml)
@@ -16,49 +17,50 @@ go get github.com/sv-tools/viper-template@latest
 package main
 
 import (
-	"fmt"
-	"text/template"
+  "fmt"
+  "text/template"
 
-	"github.com/spf13/viper"
-	vipertemplate "github.com/sv-tools/viper-template"
+  "github.com/spf13/viper"
+  vipertemplate "github.com/sv-tools/viper-template"
 )
 
 func main() {
-	v := viper.New()
-	v.Set("foo", `{{ Get "bar" }}`)
-	v.Set("bar", `{{ Mul . 2 }}`)
+  v := viper.New()
+  v.Set("foo", `{{ Get "bar" }}`)
+  v.Set("bar", `{{ Mul . 2 }}`)
 
-	type Data struct {
-		Bar int
-	}
-	data := Data{
-		Bar: 42,
-	}
+  type Data struct {
+    Bar int
+  }
+  data := Data{
+    Bar: 42,
+  }
 
-	funcs := template.FuncMap{
-		"Mul": func(d *Data, v int) int {
-			return d.Bar * v
-		},
-	}
+  funcs := template.FuncMap{
+    "Mul": func(d *Data, v int) int {
+      return d.Bar * v
+    },
+  }
 
-	val, err := vipertemplate.Get(
-		"foo",
-		vipertemplate.WithViper(v),
-		vipertemplate.WithData(&data),
-		vipertemplate.WithFuncs(funcs),
-	)
-	if err != nil {
-		panic(err)
-	}
+  val, err := vipertemplate.Get(
+    "foo",
+    vipertemplate.WithViper(v),
+    vipertemplate.WithData(&data),
+    vipertemplate.WithFuncs(funcs),
+  )
+  if err != nil {
+    panic(err)
+  }
 
-	fmt.Println(val)
-	// Output: 84
+  fmt.Println(val)
+  // Output: 84
 }
 ```
 
 ## Benchmarks
 
 ### `v1.9.0`
+
 using go `v1.23.9`
 
 ```

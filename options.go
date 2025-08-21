@@ -26,7 +26,7 @@ func WithFuncs(funcs template.FuncMap) Option {
 }
 
 // WithData is an option to use a given data as an input for the templates
-func WithData(data interface{}) Option {
+func WithData(data any) Option {
 	return func(p *parser) {
 		p.data = data
 	}

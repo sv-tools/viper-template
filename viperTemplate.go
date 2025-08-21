@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-var pool = sync.Pool{
-	New: func() interface{} {
+var parserPool = sync.Pool{
+	New: func() any {
 		return &parser{}
 	},
 }
@@ -17,10 +17,10 @@ var pool = sync.Pool{
 // If the type of the value is not string then just returns,
 // otherwise it parses and executes the stored text as a go template.
 // The `Get` function added by default. It supports the recursive calls.
-func Get(key string, opts ...Option) (interface{}, error) {
-	p := pool.Get().(*parser)
+func Get(key string, opts ...Option) (any, error) {
+	p := parserPool.Get().(*parser)
 	defer func() {
-		pool.Put(p)
+		parserPool.Put(p)
 	}()
 	p.viper = viper.GetViper()
 	p.visited = make(map[string]struct{})

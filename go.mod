@@ -1,11 +1,10 @@
 module github.com/sv-tools/viper-template
 
-go 1.23.0
+go 1.23 // must be in-sync with viper
 
 require (
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
-	github.com/sv-tools/buffers-pool v1.5.0
 )
 
 require (
