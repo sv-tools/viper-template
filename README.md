@@ -1,6 +1,6 @@
 # viper-template
 
-An add-on for the Go Viper library that evaluates Go text/template expressions inside configuration values. Use it to reference other keys, inject custom data and functions, and compute settings dynamically at read time.
+An add-on for the [Go Viper](https://github.com/spf13/viper) library that evaluates Go text/template expressions inside configuration values. Use it to reference other keys, inject custom data and functions, and compute settings dynamically at read time.
 
 [![Code Analysis](https://github.com/sv-tools/viper-template/actions/workflows/checks.yaml/badge.svg)](https://github.com/sv-tools/viper-template/actions/workflows/checks.yaml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/sv-tools/viper-template.svg)](https://pkg.go.dev/github.com/sv-tools/viper-template)
