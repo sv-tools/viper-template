@@ -65,17 +65,28 @@ func main() {
 
 ## Benchmarks
 
-### `v1.9.0`
+### `v2.0.0`
 
-using go `v1.23.9`
+#### using go `v1.23.12`
 
 ```shell
 % go test -bench=. -benchmem
 
+goos: darwin                                                                                                                                                                   
+goarch: arm64                                                                                                                                                                  
+pkg: github.com/sv-tools/viper-template/v2                                                                                                                                     
+cpu: Apple M1                                                                                                                                                                  
+BenchmarkGetParallel-8            742156              1632 ns/op            4330 B/op         43 allocs/op                                                                     
+BenchmarkGetSequential-8          406408              2802 ns/op            4328 B/op         43 allocs/op                                                                     
+```
+
+#### using go `v1.25.0`
+
+```shell
 goos: darwin
-goarch: arm64
-pkg: github.com/sv-tools/viper-template
-cpu: Apple M1
-BenchmarkGetParallel-8            757263              1582 ns/op            4330 B/op         43 allocs/op
-BenchmarkGetSequential-8          417817              2780 ns/op            4328 B/op         43 allocs/op
+goarch: arm64                                                                                                                                                                  
+pkg: github.com/sv-tools/viper-template/v2                                                                                                                                     
+cpu: Apple M1                                                                                                                                                                  
+BenchmarkGetParallel-8            749420              1542 ns/op            4457 B/op         45 allocs/op                                                                     
+BenchmarkGetSequential-8          457682              2501 ns/op            4454 B/op         45 allocs/op                                                                     
 ```
